@@ -1,0 +1,18 @@
+@import './variables.scss';
+
+.sidebar{
+    background:$bg-dark;
+    position:fixed!important;
+    top:0;
+    left:0;
+    height:100%;
+    &-links{
+        display: block;
+        color:$color-white;;
+        text-decoration: none;
+        &:hover{
+            text-decoration: none;
+            color:$color-primary;
+        }
+    }
+}

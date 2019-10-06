@@ -9,8 +9,8 @@ class SideBar extends Component {
         return (
             <div>
                 {
-                navOptions.map(navItem => <NavLink to="/">{navItem}</NavLink>)
-            }
+                    navOptions.map(navItem => <NavLink className="sidebar-links" to={navItem == 'Dashboard' ? `/dashboard/home`: `/dashboard/${navItem.toLowerCase()}`}>{navItem}</NavLink>)
+                }
             </div>
         )
     }
