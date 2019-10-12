@@ -6,8 +6,12 @@ import Products from '../components/Dashboard/Products'
 import Categories from '../components/Dashboard/Categories'
 import Users from '../components/Dashboard/Users'
 import {Route} from 'react-router-dom';
+import {connect} from 'react-redux';
 class Dashboard extends Component {
     render() {
+        if(!this.props.auth.uid){
+            this.props.history.push("/")
+        }
         return (
             <Container fluid>
                 <Row>
@@ -26,4 +30,8 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard
+const mapStateToProps = state => ({
+    auth:state.auth
+})
+
+export default connect(mapStateToProps, null)(Dashboard)

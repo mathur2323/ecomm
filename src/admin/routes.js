@@ -2,14 +2,24 @@ import React from 'react'
 import { BrowserRouter, Route } from 'react-router-dom';
 import Dashboard from './containers/Dashboard';
 import Login from './containers/Login';
+import NavbarHeader from './components/Navbar';
+import {connect} from 'react-redux';
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
 
-const Routes = () => {
+const Routes = (props) => {
+    console.log(props.auth)
     return (
-        <BrowserRouter>
-            <Route exact path="/" render={()=>!!sessionStorage.getItem("_sessionToken") ? <Dashboard /> : <Login />} />
-            <Route path="/dashboard" component={Dashboard} />
+        <BrowserRouter history={history}>
+            <NavbarHeader />
+            <Route exact path="/" component={!!props.auth.uid ? Dashboard : Login} />
+            {/* <Route path="/dashboard" component={Dashboard} /> */}
         </BrowserRouter>
     )
 }
 
-export default Routes
+const mapStateToProps = state => ({
+    auth:state.auth
+})
+
+export default connect(mapStateToProps, null)(Routes)

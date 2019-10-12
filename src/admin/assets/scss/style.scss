@@ -3,7 +3,7 @@
 .sidebar{
     background:$bg-dark;
     position:fixed!important;
-    top:0;
+    top:55px;
     left:0;
     height:100%;
     &-links{
@@ -15,4 +15,17 @@
             color:$color-primary;
         }
     }
+}
+.flex{
+    display: flex;
+    &-space-between{
+        justify-content: space-between;
+    }
+}
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#000;
 }

@@ -1,45 +1,45 @@
 import React, { Component } from 'react'
-import { Form, FormGroup, Label, Col, 
-    Input, Container, Row, Button } from 'reactstrap';
+import {
+    Form, FormGroup, Label, Col,
+    Input, Container, Row, Button
+} from 'reactstrap';
 import fire from './../../config/fireserver';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { loginSuccess } from './../../actions';
+import { ClipLoader } from 'react-spinners';
 
 class Login extends Component {
 
     constructor() {
         super()
-    
+
         this.state = {
-             email:'',
-             password:'',
-             authenticating:false
+            email: '',
+            password: '',
+            authenticating: false
         }
     }
 
-    handleInput = e => this.setState({[e.target.name]:e.target.value})
+    handleInput = e => this.setState({ [e.target.name]: e.target.value })
 
     handleSubmit = async e => {
         e.preventDefault();
-        // const result = await fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-        // console.log(result);
         this.setState({
-            authenticating:true
+            authenticating: true
         })
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then((userInfo)=>{
-            sessionStorage.setItem("_sessionToken",userInfo.user.uid);
-            this.setState({
-                authenticating:false
+            .then((userInfo) => {
+                sessionStorage.setItem("_sessionToken", userInfo.user.uid);
+                this.props.loginSuccess(sessionStorage.getItem("_sessionToken"))
+                this.setState({
+                    authenticating: false
+                })
             })
-        })
-        .catch((err)=>alert(err));
-    }    
+            .catch((err) => alert(err));
+    }
 
     render() {
-        if(!!sessionStorage.getItem("_sessionToken")){
-            return <Redirect to="/dashboard" from="/" />
-        }
-        
         return (
             <Container>
                 <Row className="my-5">
@@ -49,19 +49,19 @@ class Login extends Component {
                             <FormGroup row>
                                 <Label sm={2}>Email</Label>
                                 <Col sm={10}>
-                                    <Input type="email" 
-                                    name="email" 
-                                    placeholder="Email Address or Username"
-                                    onChange={this.handleInput} />
+                                    <Input type="email"
+                                        name="email"
+                                        placeholder="Email Address or Username"
+                                        onChange={this.handleInput} />
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
                                 <Label sm={2}>Password</Label>
                                 <Col sm={10}>
-                                    <Input type="password" 
-                                    name="password" 
-                                    placeholder="Password"
-                                    onChange={this.handleInput} />
+                                    <Input type="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        onChange={this.handleInput} />
                                 </Col>
                             </FormGroup>
                             <FormGroup check row>
@@ -70,6 +70,12 @@ class Login extends Component {
                                 </Col>
                             </FormGroup>
                         </Form>
+                        <ClipLoader
+                            sizeUnit={"px"}
+                            size={150}
+                            color={'#123abc'}
+                            loading={this.state.authenticating}
+                        />
                     </Col>
                 </Row>
             </Container>
@@ -77,4 +83,8 @@ class Login extends Component {
     }
 }
 
-export default Login
+const mapDispatchToProps = dispatch => ({
+    loginSuccess: (uid) => dispatch(loginSuccess(uid))
+})
+
+export default connect(null, mapDispatchToProps)(Login)
