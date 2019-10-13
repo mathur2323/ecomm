@@ -39,6 +39,10 @@ class Login extends Component {
             .catch((err) => alert(err));
     }
 
+    componentDidMount(){
+        this.props.loginSuccess(sessionStorage.getItem("_sessionToken"))
+    }
+
     render() {
         return (
             <Container>

@@ -8,12 +8,11 @@ import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 
 const Routes = (props) => {
-    console.log(props.auth)
     return (
         <BrowserRouter history={history}>
             <NavbarHeader />
             <Route exact path="/" component={!!props.auth.uid ? Dashboard : Login} />
-            {/* <Route path="/dashboard" component={Dashboard} /> */}
+            <Route path="/dashboard" component={Dashboard} />
         </BrowserRouter>
     )
 }
