@@ -27,6 +27,9 @@ class Categories extends Component {
         fire.database().ref('categories/').push().set({
             categories: this.state.newCategory
         })
+        .then(()=>{
+            this.getCategoriesList()
+        })
             .catch((err) => console.log(err))
     }
 
@@ -76,6 +79,19 @@ class Categories extends Component {
         )
     }
 
+    deleteCategory = (catKey) => {
+        console.log('delete')
+        fire.database().ref('categories/'+catKey).remove()
+        .then(()=>{
+            this.getCategoriesList()
+
+        })
+        .catch(()=>{
+            console.log('hgdfjd');
+        })
+
+    }
+
     render() {
         console.log(this.state)
         return (
@@ -102,6 +118,7 @@ class Categories extends Component {
                         {
                             this.state.categoriesList.map((category, index) => <TableData name={category.categories} serial={index} key={index} categoryKey={this.state.categoryKeys[index]}
                                 toggleModal={this.toggleModal}
+                                deleteCategory={this.deleteCategory}
                             />)
                         }
 
@@ -155,7 +172,8 @@ class ModalForm extends React.Component {
 
 class TableData extends React.Component {
     render() {
-        const { name, serial, categoryKey, toggleModal } = this.props;
+        
+        const { name, serial, categoryKey, toggleModal, deleteCategory } = this.props;
         return (
 
             <tr>
@@ -163,7 +181,7 @@ class TableData extends React.Component {
                 <td>{name}</td>
                 <td>
                     <Button color="primary mr-2" name={name} onClick={()=>toggleModal(categoryKey)}>Edit</Button>
-                    <Button>Delete</Button>
+                    <Button onClick={()=>deleteCategory(categoryKey)}>Delete</Button>
                 </td>
             </tr>
         )

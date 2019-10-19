@@ -5,7 +5,7 @@ const firebaseConfig = {
     authDomain: "e-commerce-38ba5.firebaseapp.com",
     databaseURL: "https://e-commerce-38ba5.firebaseio.com",
     projectId: "e-commerce-38ba5",
-    storageBucket: "",
+    storageBucket: "gs://e-commerce-38ba5.appspot.com/",
     messagingSenderId: "818316789962",
     appId: "1:818316789962:web:e92ac7ba16b3cb15b7cc33"
   };
